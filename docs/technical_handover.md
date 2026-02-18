@@ -61,15 +61,25 @@ jdy-cms/
     *   `attach_evidence`: 绑定原始凭证 (依赖凭证 ID)
     *   `unattach_evidence`: 解绑原始凭证
 
+
+### 3.3 账簿模块 (Ledger)
+*   **代码位置**: `src/services/ledger_service.py`
+*   **功能**:
+    *   `get_account_balance`: 科目余额表 (已验证)
+    *   `get_detail_ledger`: 明细账 (已验证)
+    *   `get_general_ledger`: 总账 (已验证，处理了嵌套列表结构)
+    *   `get_qty_amount_total`: 数量金额总账 (已验证)
+    *   其他支持接口: `qtyamountdetail`, `itembalance`, `itemdetail`, `combination`
+
 ## 4. 验证步骤
 
 ### 4.1 运行 Demo
 ```bash
-uv run python scripts/demo.py
+uv run python scripts/demo.py        # 凭证模块
+uv run python scripts/demo_ledger.py # 账簿模块
 ```
-*   该脚本会自动进行认证（处理动态密钥）。
-*   查询 `202601` 期间的凭证列表。
-*   结果保存至 `voucher_demo_output.json`（位于根目录）。
+*   `demo.py`: 自动认证并查询凭证。
+*   `demo_ledger.py`: 验证科目余额表、明细账、总账等核心报表。
 
 ### 4.2 诊断问题
 如果遇到 404/500 错误：
@@ -79,7 +89,22 @@ uv run python scripts/debug_api.py
 *   该脚本会打印详细的 Request Headers 和 Params。
 *   提供直连 IDC 的测试模式。
 
-## 5. 待办事项 (Next Steps)
+## 5. 已知问题与注意事项 (Known Issues)
+1.  **API 状态码不统一**: 
+    -   部分接口返回 `code: "0"` (标准化)。
+    -   部分接口返回 `status: 200` 且无 code (如总账)。
+    -   部分接口返回 `status: 250` 表示无数据 (需视为成功)。
+    -   **处理**: `LedgerService` 已兼容这三种情况。
+2.  **数据结构差异**: 
+    -   总账接口文档描述为对象列表，实际返回为嵌套列表 (`List[List]`)。已在模型中适配。
+3.  **字段名映射**: 
+    -   科目余额表文档称字段为 `name`，实际返回 `accountname`。已通过 alias 解决。
+4.  **数据类型宽松**: 
+    -   API 返回的数值字段经常混用 `float`/`string`/`null`。Pydantic 模型已配置为宽松模式 (`Union[float, str, int, None]`)。
+5.  **权限报错**: 
+    -   原始凭证查询接口仍报 `4012` 权限错误，需在云之家/金蝶后台检查应用权限配置。
+
+## 6. 待办事项 (Next Steps)
 1.  **科目管理**: 实现科目表的获取与维护。
 2.  **基础资料**: 客商档案的同步。
 3.  **权限排查**: 解决原始凭证查询接口的 4012 权限错误。
