@@ -1,7 +1,26 @@
 [project]
-name = "jdy-cms"
+name = "jdy-accounting-api"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+description = "Kingdee Jingu Cloud Accounting API SDK"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "requests-mock>=1.11.0",
+    "ruff>=0.1.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
