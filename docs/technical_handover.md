@@ -71,12 +71,22 @@ jdy-cms/
     *   `get_qty_amount_total`: 数量金额总账 (已验证)
     *   其他支持接口: `qtyamountdetail`, `itembalance`, `itemdetail`, `combination`
 
+### 3.4 报表模块 (Report)
+*   **代码位置**: `src/services/report_service.py`
+*   **功能**:
+    *   `get_profit_statement`: 利润表 (已验证)
+    *   `get_balance_sheet`: 资产负债表 (已验证)
+    *   `get_cash_flow_statement`: 现金流量表 (已验证)
+    *   `get_expense_detail`: 费用明细表 (已验证，修正了文档参数缺失问题)
+    *   `get_tax_payable_detail`: 应交税金明细表 (已验证)
+
 ## 4. 验证步骤
 
 ### 4.1 运行 Demo
 ```bash
 uv run python scripts/demo.py        # 凭证模块
 uv run python scripts/demo_ledger.py # 账簿模块
+uv run python tests/reproduce_report.py # 报表模块
 ```
 *   `demo.py`: 自动认证并查询凭证。
 *   `demo_ledger.py`: 验证科目余额表、明细账、总账等核心报表。
@@ -103,6 +113,11 @@ uv run python scripts/debug_api.py
     -   API 返回的数值字段经常混用 `float`/`string`/`null`。Pydantic 模型已配置为宽松模式 (`Union[float, str, int, None]`)。
 5.  **权限报错**: 
     -   原始凭证查询接口仍报 `4012` 权限错误，需在云之家/金蝶后台检查应用权限配置。
+6.  **报表接口差异**:
+    -   利润表/资产负债表/现金流量表返回 `code: 0`。
+    -   费用明细表/应交税金明细表返回 `status: 200` 且无 `code` 字段。`ReportService` 已做兼容处理。
+7.  **文档参数缺失**:
+    -   费用明细表 (`expenseDetail`) 接口文档未标注 `fromPeriod` 为必填，但实际调用必须传递，否则报错。已在代码中修复。
 
 ## 6. 待办事项 (Next Steps)
 1.  **科目管理**: 实现科目表的获取与维护。
