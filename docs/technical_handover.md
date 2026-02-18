@@ -52,6 +52,15 @@ jdy-cms/
     *   `delete_vouchers`: 删除凭证
     *   `get_voucher_summary`: 凭证汇总
 
+### 3.2 原始凭证模块 (Evidence)
+*   **代码位置**: `src/services/evidence_service.py`
+*   **功能**:
+    *   `upload_evidence`: 上传原始凭证 (已验证，成功)
+    *   `get_evidence_list`: 查询原始凭证列表 (存在权限问题 4012，需检查应用权限)
+    *   `get_attachment_list`: 查询附件列表 (存在权限问题 4012，需检查应用权限)
+    *   `attach_evidence`: 绑定原始凭证 (依赖凭证 ID)
+    *   `unattach_evidence`: 解绑原始凭证
+
 ## 4. 验证步骤
 
 ### 4.1 运行 Demo
@@ -73,4 +82,4 @@ uv run python scripts/debug_api.py
 ## 5. 待办事项 (Next Steps)
 1.  **科目管理**: 实现科目表的获取与维护。
 2.  **基础资料**: 客商档案的同步。
-3.  **凭证写入**: 验证 `save_vouchers` 接口的实际写入能力。
+3.  **权限排查**: 解决原始凭证查询接口的 4012 权限错误。
