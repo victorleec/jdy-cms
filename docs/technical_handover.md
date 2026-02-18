@@ -79,6 +79,18 @@ jdy-cms/
     *   `get_cash_flow_statement`: 现金流量表 (已验证)
     *   `get_expense_detail`: 费用明细表 (已验证，修正了文档参数缺失问题)
     *   `get_tax_payable_detail`: 应交税金明细表 (已验证)
+    
+### 3.5 出纳模块 (Cashier)
+*   **代码位置**: `src/services/cashier_service.py`
+*   **功能**:
+    *   `get_journal_list`: 日记账查询 (已验证)
+    *   `save_journal`: 日记账新增 (已验证，支持数值类型自动转换)
+    *   `update_journal`: 日记账修改 (已验证)
+    *   `delete_journal`: 日记账删除 (已验证)
+    *   `get_account_list`: 账户查询 (已验证)
+    *   `save_account`: 账户新增 (已验证)
+    *   `update_account`: 账户修改 (已验证)
+    *   `delete_account`: 账户删除 (已验证)
 
 ## 4. 验证步骤
 
@@ -87,6 +99,7 @@ jdy-cms/
 uv run python scripts/demo.py        # 凭证模块
 uv run python scripts/demo_ledger.py # 账簿模块
 uv run python tests/reproduce_report.py # 报表模块
+uv run python tests/test_cashier.py     # 出纳模块
 ```
 *   `demo.py`: 自动认证并查询凭证。
 *   `demo_ledger.py`: 验证科目余额表、明细账、总账等核心报表。
@@ -118,6 +131,8 @@ uv run python scripts/debug_api.py
     -   费用明细表/应交税金明细表返回 `status: 200` 且无 `code` 字段。`ReportService` 已做兼容处理。
 7.  **文档参数缺失**:
     -   费用明细表 (`expenseDetail`) 接口文档未标注 `fromPeriod` 为必填，但实际调用必须传递，否则报错。已在代码中修复。
+8.  **出纳日记账金额**:
+    -   API 文档要求金额字段为字符串 (`string`)，但实际接收数值 (`number`) 会报错或行为不一致。模型层已添加验证器自动转换。
 
 ## 6. 待办事项 (Next Steps)
 1.  **科目管理**: 实现科目表的获取与维护。
