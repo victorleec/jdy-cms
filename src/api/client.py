@@ -66,4 +66,7 @@ class KingdeeClient:
     def get(self, path: str, **kwargs) -> Dict[str, Any]:
         return self.request("GET", path, **kwargs)
 
+    def delete(self, path: str, data: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
+        return self.request("DELETE", path, json=data, **kwargs)
+
 client = KingdeeClient()

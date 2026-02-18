@@ -92,6 +92,18 @@ jdy-cms/
     *   `update_account`: 账户修改 (已验证)
     *   `delete_account`: 账户删除 (已验证)
 
+### 3.6 设置模块 (Settings)
+*   **代码位置**: `src/services/settings_service.py`
+*   **功能**:
+    *   `get_system_profile`: 获取系统参数 (如会计准则)
+    *   `get_account_subjects`: 获取会计科目列表
+    *   `save_account_subject`: 保存会计科目
+    *   `get_voucher_words`: 查询凭证字
+    *   `get_auxiliary_item_classes`: 获取辅助核算类别
+    *   `get_auxiliary_items`: 获取辅助核算项目 (客户/供应商/职员等)
+    *   `save_auxiliary_items`: 保存辅助核算项目
+    *   `delete_auxiliary_items`: 删除辅助核算项目
+
 ## 4. 验证步骤
 
 ### 4.1 运行 Demo
@@ -135,6 +147,5 @@ uv run python scripts/debug_api.py
     -   API 文档要求金额字段为字符串 (`string`)，但实际接收数值 (`number`) 会报错或行为不一致。模型层已添加验证器自动转换。
 
 ## 6. 待办事项 (Next Steps)
-1.  **科目管理**: 实现科目表的获取与维护。
-2.  **基础资料**: 客商档案的同步。
-3.  **权限排查**: 解决原始凭证查询接口的 4012 权限错误。
+1.  **权限排查**: 解决原始凭证查询接口的 4012 权限错误。
+2.  **集成测试**: 进行全流程集成测试。
