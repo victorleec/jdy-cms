@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     # Gateway Router (IDC Domain)
     JDY_IDC_DOMAIN: str | None = None   # X-GW-Router-Addr (e.g. https://tf.jdy.com)
 
+    # REST API 认证密钥
+    API_KEY: str | None = None  # X-API-Key 请求头，用于保护 REST API 端点
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8", 
