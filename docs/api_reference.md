@@ -1721,7 +1721,7 @@ curl -X GET "http://localhost:9034/api/settings/account-subjects?number=1001&nam
 | dc | int | 是 | 借贷方向: `1` - 借, `-1` - 贷 |
 | groupName | string | 是 | 科目类别名称 |
 | itemClsName | string | 否 | 辅助核算类别名称 |
-| currency | string | 否 | 币别 |
+| currency | string | 条件必填 | 币别。**重要**：若科目已配置币种，更新时必须显式传入与原值一致的 `currency`，否则金蝶 API 会返回"币别已被使用，不能修改"错误 |
 | useCustomer | int | 否 | 是否启用客户辅助核算 |
 | useSupplier | int | 否 | 是否启用供应商辅助核算 |
 | useDept | int | 否 | 是否启用部门辅助核算 |

@@ -56,7 +56,13 @@ class KingdeeClient:
         # Check Business Errors (code != 0)
         # Some APIs use 'code', some 'errcode'. Accounting seems to use 'code'.
         if "code" in data and str(data["code"]) != "0":
-             raise Exception(f"API Error {data['code']}: {data.get('msg') or data.get('description')}")
+            # 尝试从 list 中提取详细错误信息（批量操作时金蝶返回 list[0].msg）
+            detail_msg = data.get('msg') or data.get('description')
+            if isinstance(data.get('list'), list) and data['list']:
+                item = data['list'][0]
+                if item.get('msg'):
+                    detail_msg = item['msg']
+            raise Exception(f"API Error {data['code']}: {detail_msg}")
              
         return data
 

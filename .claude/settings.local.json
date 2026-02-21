@@ -5,7 +5,12 @@
       "Bash(timeout 10 uv run:*)",
       "Bash(uv run ruff check:*)",
       "Bash(uv run python -m ruff check:*)",
-      "Bash(uv run:*)"
+      "Bash(uv run:*)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(git rm:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
     ]
   }
 }
